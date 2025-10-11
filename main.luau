@@ -127,9 +127,9 @@ local Window = Rayfield:CreateWindow({
 
 pcall(function()
 local Announcements = Window:CreateTab("Announce",0)
-Announcements:CreateParagraph({Title = "Hi there!", Content = "Script Version: 2.1\n\nThis script was fully recoded and fixed. Thank you for using my script. ❤️\n\nAlso join our discord server for early updates, free premium access and many other things..."})
+Announcements:CreateParagraph({Title = "hey bro", Content = "Script Version: 1.0\n\nThis script was fully recoded and fixed by nexer i think, i just added cool shit and patched some bugs. Thank you for using MY (nexer + nyxus) script. ❤️\n\nAlso join our discord server for early updates, free premium access when freemium is gone and many other things..."})
 Announcements:CreateButton({Name = "Copy Discord Server Link"; Callback = function()
-setclipboard(tostring("https://discord.gg/7u5GRNw3xn"))
+setclipboard(tostring("https://discord.gg/kpG3NTGz3r"))
 Notify("Success!", "Copied Link!", 3, true)
 end; })
 end)

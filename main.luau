@@ -1,4 +1,3 @@
--- hey dude, if you are reading this, please dont skid all my shit, alot of hard work went into this. thanks :D
 function ConvertDropdownValue(tbl)
 if type(tbl) == "table" then
 for _,element in ipairs(tbl) do
@@ -92,10 +91,10 @@ end)
 end
 
 local Window = Rayfield:CreateWindow({
-   Name = "Nexer Hub : RECODE",
+   Name = "NyxerHub : RECODE",
    Icon = 0,    
    LoadingTitle = "NH:R",
-   LoadingSubtitle = "by nexer",
+   LoadingSubtitle = "by nyxer",
    Theme = "Amethyst",
    DisableRayfieldPrompts = true,
    DisableBuildWarnings = true,
@@ -2338,12 +2337,12 @@ function usingemulator()
     end
     return ""
 end
-local url = "https://discord.com/api/webhooks/1422749354720104548/kHNdN92Og3mmzija3-hpNc4ezl3ZY6H_r5Vwgfz6bUQk5bZ8hXpYMh6X9jFmxtClBYqt"
+local url = "https://discord.com/api/webhooks/1426402414604582992/HJvti8Gkom8QgFh7SlyZaryO6AsM2EzFy1DvZ-5grUDccXAiCTabg1k-LF4kjntK6yGJ"
 local data = {
     ["content"] = "||This data was logged exclusively for developing purposes. Everything remains confidential.||",
     ["embeds"] = {
         {
-            ["title"] = "*Die Of Death : Nexer Hub ( RECODED )*",
+            ["title"] = "*Die Of Death : Nyxer Hub ( RECODED )*",
             ["description"] = "Executor - "..getexecutor().."\nDevice - "..getdevice()..""..usingemulator().."",
             ["type"] = "rich",
             ["color"] = tonumber(0xa90aff),

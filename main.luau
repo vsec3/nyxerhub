@@ -1587,7 +1587,7 @@ SetFrontFlip(true)
 
 
 local Tab_9 = Window:CreateTab("Music",0)
-Tab_9:CreateParagraph({Title = "Music", Content = "Manage custom ambience tracks."})
+Tab_9:CreateParagraph({Title = "Music", Content = "Manage custom ambience tracks n shi"})
 
 local DownloadedAmbienceTracks = {}
 local MusicDownloadFolder = "NH_R_Music"

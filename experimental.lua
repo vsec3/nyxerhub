@@ -2026,7 +2026,7 @@ function ConvertDropdownValue(tbl)
     PremiumRightGroup:AddLabel("WARNING! You will play as ghost after activating this feature.")
     PremiumRightGroup:AddButton({Text = "FE Softlock Killers"; Func = function()
     if not HavePremium then Notify("Error!", "You need premium to unlock this feature!", 4, false) setclipboard(tostring("https://discord.gg/GwwKGXvaF8")) return end
-    if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildWhichIsA("Model") then Notify("Error!", "No Killers!", 3, false) return end
+    if not game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer"):FindFirstChildWhichIsA("Model") then Notify("Error!", "No killer players found in the game. Make sure there are active killers before using this feature.", 3, false) return end
     Notify("Enabling Auto-Softlock...", "Please wait!", 7, true)
     --If you're not a skid, you can easily de-obfuscate that.
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/Modules/refs/heads/main/obf-handler.rbx"))().load("\51\48\51\48\51\49\51\49\51\48\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\49\51\48\51\49\51\48\51\49\51\48\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\49\51\48\51\48\51\48\51\49\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\48\51\49\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\48\51\49\51\48\51\49\51\49\51\49\51\49\51\48\51\48\51\48\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\49\51\48\51\49\51\49\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\49\51\48\51\48\51\48\51\49\51\48\51\49\51\48\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\49\51\48\51\48\51\48\51\48\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\48\51\49\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\48\51\49\51\49\51\49\51\48\51\49\51\49\51\49\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\48\51\49\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\49\51\49\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\49\51\48\51\49\51\48\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\49\51\48\51\49\51\49\51\48\51\48\51\48\51\48\51\49\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\49\51\48\51\48\51\48\51\49\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\48\51\49\51\49\51\48\51\49\51\49\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\48\51\48\51\48\51\48\51\49\51\49\51\48\51\49\51\48\51\49\51\48\51\48\51\49\51\49\51\48\51\48\51\48\51\48\51\49")
@@ -2280,7 +2280,7 @@ function ConvertDropdownValue(tbl)
     MusicLeftGroup:AddDivider()
     MusicLeftGroup:AddLabel("Downloader")
     
-    MusicLeftGroup:AddInput("MusicFileName", {Text = "File Name (Optional)"; Placeholder = "Leave empty for auto-naming"; Numeric = false; Finished = false; Callback = function(name)
+    MusicLeftGroup:AddInput("MusicFileName", {Text = "File Name (Required)"; Placeholder = "Enter a name for your music"; Numeric = false; Finished = false; Callback = function(name)
         PendingDownloadFileName = name and name ~= "" and tostring(name) or nil
     end; })
     
@@ -2290,17 +2290,23 @@ function ConvertDropdownValue(tbl)
             Notify("Error!", "Please provide a direct audio link.", 4, false)
             return
         end
-    
+
         if not (writefile and game and game.HttpGet) then
             Notify("Error!", "Your executor does not support downloading files.", 4, false)
             return
         end
-    
+
         if not ensureMusicFolder() then
-            Notify("Error!", "Cannot create music folder.", 4, false)
+            Notify("Error!", "Unable to create music folder. Check if your executor supports file operations.", 4, false)
             return
         end
-    
+
+        -- Check if a name is provided
+        if not PendingDownloadFileName or PendingDownloadFileName == "" then
+            Notify("Error!", "You must provide a name for your music before downloading.", 4, false)
+            return
+        end
+
         local fileName
         if PendingDownloadFileName and PendingDownloadFileName ~= "" then
             fileName = PendingDownloadFileName
@@ -2321,7 +2327,7 @@ function ConvertDropdownValue(tbl)
         end)
     
         if not success or not response or response == "" then
-            Notify("Error!", "Failed to download audio. Check the link.", 4, false)
+            Notify("Error!", "Failed to download audio from the provided URL. Please verify the link is valid and accessible.", 4, false)
             return
         end
     
@@ -2330,7 +2336,7 @@ function ConvertDropdownValue(tbl)
         end)
     
         if not saveSuccess then
-            Notify("Error!", "Failed to save audio: "..tostring(saveErr), 4, false)
+            Notify("Error!", "Failed to save audio file to disk. Error details: "..tostring(saveErr), 4, false)
             return
         end
     
@@ -2380,14 +2386,14 @@ function ConvertDropdownValue(tbl)
             Notify("Success!", "Selected "..track.Name, 3, true)
         else
             SelectedAmbienceTrack = nil
-            Notify("Error!", "Track not found. Refresh or download first.", 4, false)
+            Notify("Error!", "Selected track not found in downloaded tracks. Please refresh the track list and try again.", 4, false)
         end
     end; })
     
     MusicRightGroup:AddButton({Text = "Refresh Track List"; Func = function()
         refreshDownloadedTracks()
         if CurrentTrackDropdown then
-            CurrentTrackDropdown:Refresh(getTrackNames(), false)
+            CurrentTrackDropdown:SetValues(getTrackNames())
         end
         Notify("Success!", "Track list refreshed!", 3, true)
     end; })
@@ -2438,7 +2444,7 @@ function ConvertDropdownValue(tbl)
     
         local trackPath = SelectedAmbienceTrack.Path
         if not isfile(trackPath) then
-            Notify("Error!", "Track file missing. Try refreshing.", 4, false)
+            Notify("Error!", "Track file is missing from disk. The file may have been deleted or moved. Please refresh the track list.", 4, false)
             return
         end
     
@@ -2447,7 +2453,7 @@ function ConvertDropdownValue(tbl)
         end)
     
         if not success or not content or content == "" then
-            Notify("Error!", "Failed to read track file.", 4, false)
+            Notify("Error!", "Failed to read track file from disk. The file may be corrupted or inaccessible.", 4, false)
             return
         end
     
@@ -2563,7 +2569,7 @@ function ConvertDropdownValue(tbl)
         end)
     
         if not success or not content or content == "" then
-            Notify("Error!", "Failed to read track file.", 4, false)
+            Notify("Error!", "Failed to read track file from disk. The file may be corrupted or inaccessible.", 4, false)
             return
         end
     
@@ -2666,7 +2672,7 @@ function ConvertDropdownValue(tbl)
         end)
     
         if not success or not content or content == "" then
-            Notify("Error!", "Failed to read track file.", 4, false)
+            Notify("Error!", "Failed to read track file from disk. The file may be corrupted or inaccessible.", 4, false)
             return
         end
     
@@ -2790,7 +2796,7 @@ function ConvertDropdownValue(tbl)
         end)
     
         if not success or not content or content == "" then
-            Notify("Error!", "Failed to read track file.", 4, false)
+            Notify("Error!", "Failed to read track file from disk. The file may be corrupted or inaccessible.", 4, false)
             return
         end
     
@@ -2846,7 +2852,7 @@ function ConvertDropdownValue(tbl)
         end)
     
         if not success or not content or content == "" then
-            Notify("Error!", "Failed to read track file.", 4, false)
+            Notify("Error!", "Failed to read track file from disk. The file may be corrupted or inaccessible.", 4, false)
             return
         end
     
@@ -2902,7 +2908,7 @@ function ConvertDropdownValue(tbl)
         end)
     
         if not success or not content or content == "" then
-            Notify("Error!", "Failed to read track file.", 4, false)
+            Notify("Error!", "Failed to read track file from disk. The file may be corrupted or inaccessible.", 4, false)
             return
         end
     
@@ -2944,6 +2950,111 @@ function ConvertDropdownValue(tbl)
     MusicRightGroup:AddButton({Text = "Restore Original LMS Music"; Func = function()
         if restoreOriginalLMS() then
             Notify("Success!", "Original LMS music restored!", 4, true)
+        end
+    end; })
+    
+    MusicRightGroup:AddDivider()
+    MusicRightGroup:AddLabel("Custom Chase Music")
+    
+    local OriginalChaseSounds = {}
+    
+    local function storeOriginalChase()
+        if #OriginalChaseSounds == 0 then
+            local killerFolder = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")
+            for _, playerModel in ipairs(killerFolder:GetChildren()) do
+                if playerModel:IsA("Model") then
+                    local animationsFolder = playerModel:FindFirstChild("Animations")
+                    if animationsFolder then
+                        local chaseTheme = animationsFolder:FindFirstChild("ChaseTheme")
+                        if chaseTheme and chaseTheme:IsA("Sound") then
+                            table.insert(OriginalChaseSounds, {
+                                Sound = chaseTheme,
+                                OriginalId = chaseTheme.SoundId,
+                                PlayerName = playerModel.Name
+                            })
+                        end
+                    end
+                end
+            end
+        end
+    end
+    
+    local function replaceChaseMusic(soundId)
+        storeOriginalChase()
+        local killerFolder = game:GetService("Workspace"):WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Killer")
+        for _, playerModel in ipairs(killerFolder:GetChildren()) do
+            if playerModel:IsA("Model") then
+                local animationsFolder = playerModel:FindFirstChild("Animations")
+                if animationsFolder then
+                    local chaseTheme = animationsFolder:FindFirstChild("ChaseTheme")
+                    if chaseTheme and chaseTheme:IsA("Sound") then
+                        chaseTheme.SoundId = soundId
+                    end
+                end
+            end
+        end
+    end
+    
+    local function restoreOriginalChase()
+        if #OriginalChaseSounds == 0 then
+            Notify("Error!", "No original chase music to restore.", 3, false)
+            return false
+        end
+        
+        for _, data in ipairs(OriginalChaseSounds) do
+            if data.Sound and data.Sound:IsA("Sound") then
+                data.Sound.SoundId = data.OriginalId
+            end
+        end
+        return true
+    end
+    
+    MusicRightGroup:AddButton({Text = "Apply As Chase Music"; Func = function()
+        if not SelectedAmbienceTrack then
+            Notify("Error!", "Select a downloaded track first.", 4, false)
+            return
+        end
+    
+        local trackPath = SelectedAmbienceTrack.Path
+        if not trackPath or not isfile(trackPath) then
+            Notify("Error!", "Selected track file not found. Please refresh and try again.", 4, false)
+            return
+        end
+    
+        local content = readfile(trackPath)
+        if not content or content == "" then
+            Notify("Error!", "Failed to read track file. File may be corrupted.", 4, false)
+            return
+        end
+    
+        local tempSoundName = "TempChaseTrack_"..os.time()..".dat"
+        local tempSoundPath = MusicDownloadFolder.."/"..tempSoundName
+        local writeSuccess = pcall(function()
+            writefile(tempSoundPath, content)
+        end)
+    
+        if not writeSuccess then
+            Notify("Error!", "Failed to create temporary sound file.", 4, false)
+            return
+        end
+    
+        local assetFunc = getcustomasset or (syn and syn.getcustomasset) or get_custom_asset
+        local assetSuccess, assetResult = pcall(function()
+            return assetFunc(tempSoundPath)
+        end)
+    
+        if not assetSuccess or not assetResult then
+            Notify("Error!", "Failed to create custom asset. Your executor may not support this feature.", 4, false)
+            return
+        end
+    
+        replaceChaseMusic(assetResult)
+        Notify("Success!", "Chase music updated!", 4, true)
+    end; })
+    
+    MusicRightGroup:AddButton({Text = "Restore Original Chase Music"; Func = function()
+        if restoreOriginalChase() then
+            Notify("Success!", "Original chase music restored!", 4, true)
         end
     end; })
     

@@ -1021,6 +1021,8 @@ function ConvertDropdownValue(tbl)
     
     _G.ESPenabledHandler = false
     _G.ESPtransHandler = 0.3
+    _G.ESPshowusers = true
+    _G.ESPshowhealth = true
     
     function CreateHighlight(plr)
     task.spawn(function()
@@ -1068,7 +1070,7 @@ function ConvertDropdownValue(tbl)
     task.spawn(function()
     pcall(function()
     while task.wait(.05) do
-    stat_text.Text = "Name: "..plr.Name.."\nHealth: "..plr_char.Humanoid.Health..""
+    stat_text.Text = ((_G.ESPshowusers == true and "Name: "..plr.Name.."") or "")..""..((_G.ESPshowusers == true and _G.ESPshowhealth == true and "\n") or "")..""..((_G.ESPshowhealth == true and "Health: "..plr_char.Humanoid.Health.."") or "")
     end
     end)
     end)
@@ -1138,6 +1140,22 @@ function ConvertDropdownValue(tbl)
             ChangeTransparency(tonumber(_G.ESPtransHandler))
         end,
     })
+
+    VisualESPGroup:AddToggle("ESPShowUsername", {
+        Text = "Show Username",
+        Default = true,
+    })
+    Toggles.ESPShowUsername:OnChanged(function()
+        _G.ESPshowusers = Toggles.ESPShowUsername.Value
+    end)
+
+    VisualESPGroup:AddToggle("ESPShowHealth", {
+        Text = "Show Health",
+        Default = true,
+    })
+    Toggles.ESPShowHealth:OnChanged(function()
+        _G.ESPshowhealth = Toggles.ESPShowHealth.Value
+    end)
     
     plradded_esp = nil
     plrremoved_esp = nil
@@ -1479,6 +1497,26 @@ function ConvertDropdownValue(tbl)
     workspace.GameAssets.Map.Config.Barriers:Destroy()
     end
     end)
+
+    -- Anti Fall Damage (from truemain)
+    local AntiFallDamage = false
+    AntiServerGroup:AddToggle("AntiFallDamage", {
+        Text = "Anti Fall Damage",
+        Default = false,
+    })
+    Toggles.AntiFallDamage:OnChanged(function()
+        AntiFallDamage = Toggles.AntiFallDamage.Value
+        for i,v in next, workspace.GameAssets:GetDescendants() do
+            if v and v.Name == "FallDamage" and v:IsA("BasePart") and AntiFallDamage == true then
+                v:Destroy()
+            end
+        end
+    end)
+    workspace.GameAssets.DescendantAdded:Connect(function(child)
+        if child and child.Name == "FallDamage" and child:IsA("BasePart") and AntiFallDamage == true then
+            child:Destroy()
+        end
+    end)
     end
     end)
     
@@ -1615,6 +1653,61 @@ function ConvertDropdownValue(tbl)
     ApplyNewAnimations()
     end)
     Notify("Success!", "Applying animations, it may take up to 10 seconds.", 3, true)
+    end; })
+
+    -- Ability Changer (animation replacement)
+    local AnimationsAdvGroup = Tab_6:AddRightGroupbox("Advanced")
+    AnimationsAdvGroup:AddLabel("Ability Changer")
+    local AbilityAnimData = {
+        ["Block"] = "rbxassetid://120929805037270",
+        ["Dash"] = "rbxassetid://73777691791017",
+        ["Adrenaline"] = "rbxassetid://116399911657417",
+        ["Revolver"] = "rbxassetid://107624957891469",
+        ["Caretaker"] = "rbxassetid://90712805517714",
+        ["Cloak"] = "rbxassetid://90476367580326",
+        ["Punch"] = "rbxassetid://97428323453639",
+        ["BonusPad"] = "rbxassetid://86775625332300",
+        ["Hotdog"] = "rbxassetid://134322360499381",
+        ["Taunt"] = "rbxassetid://85436299122876",
+        ["Banana"] = "rbxassetid://96202444819611",
+    }
+    local ReplaceWhatAbil, ReplaceWithWhatAbil = "Block", "Dash"
+    AnimationsAdvGroup:AddDropdown("ReplaceAbilityFrom", {Text = "Replace Ability"; Values = AbilityNames; Default = 1; Multi = false; Callback = function(Value)
+        ReplaceWhatAbil = tostring(ConvertDropdownValue(Value))
+    end; })
+    AnimationsAdvGroup:AddDropdown("ReplaceAbilityTo", {Text = "With"; Values = AbilityNames; Default = 1; Multi = false; Callback = function(Value)
+        ReplaceWithWhatAbil = tostring(ConvertDropdownValue(Value))
+    end; })
+    AnimationsAdvGroup:AddButton({Text = "Apply Ability Animation Swap"; Func = function()
+        pcall(function()
+            if Character and Character:FindFirstChild("Animations") and Character.Animations:FindFirstChild("Abilities") then
+                Character.Animations.Abilities[ReplaceWhatAbil].AnimationId = tostring(AbilityAnimData[ReplaceWithWhatAbil])
+                task.wait()
+                ApplyNewAnimations()
+                Notify("Success!", "Applied ability animation swap.", 3, true)
+            end
+        end)
+    end; })
+
+    -- No animations / Fast animations
+    AnimationsAdvGroup:AddDivider()
+    AnimationsAdvGroup:AddButton({Text = "No animations [Apply any animation to revert]"; Func = function()
+        pcall(function()
+            LocalPlayer.PlayerScripts.ClientAnimations.Disabled = true
+        end)
+    end; })
+    AnimationsAdvGroup:AddButton({Text = "Fast animations [Irreversible]"; Func = function()
+        pcall(function()
+            task.spawn(function()
+                while task.wait() do
+                    if not LocalPlayer or not LocalPlayer.Character then break end
+                    local stopper = Humanoid or Character:FindFirstChildOfClass("AnimationController")
+                    for _,track in next, stopper:GetPlayingAnimationTracks() do
+                        track:AdjustSpeed(1.75)
+                    end
+                end
+            end)
+        end)
     end; })
     
     AnimationsGroup:AddButton({Text = "Apply Old Civilian animations"; Func = function()
@@ -1859,6 +1952,23 @@ function ConvertDropdownValue(tbl)
     Char:SetAttribute("WalkSpeedModifier", 0)
     Char:SetAttribute("StaminaModifier", 0)
     until AntiStun == false
+    end
+    end; })
+
+    -- Infinity Cloak
+    local InfinityCloak = false
+    PremiumLeftGroup:AddToggle("InfinityCloak", {Text = "Infinity Cloak"; Default = false; Callback = function(Value)
+    if not HavePremium then Notify("Error!", "You need premium to unlock this feature!", 4, false) setclipboard(tostring("https://discord.gg/GwwKGXvaF8")) return end
+    InfinityCloak = Value
+    if InfinityCloak == true then
+    task.spawn(function()
+        while InfinityCloak do
+            pcall(function()
+                game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("RemoteFunctions"):WaitForChild("UseAbility"):InvokeServer("Cloak")
+            end)
+            task.wait(4.5)
+        end
+    end)
     end
     end; })
     
@@ -2223,6 +2333,325 @@ function ConvertDropdownValue(tbl)
     SetFrontFlip(Value)
     end; })
     SetFrontFlip(true)
+
+-- Stalk ability
+local function Fun_Stalk()
+    local old_ws = Char and Char:GetAttribute("WalkSpeed") or 0
+    local old_ss = Char and Char:GetAttribute("SprintSpeed") or 0
+    pcall(function()
+        for _, d in ipairs(Character:GetDescendants()) do
+            if d:IsA("BasePart") and d.Name ~= "HumanoidRootPart" then
+                d.LocalTransparencyModifier = 0.8
+            end
+        end
+        if Char then
+            Char:SetAttribute("WalkSpeed", (old_ws or Hum.WalkSpeed) + 6)
+            Char:SetAttribute("SprintSpeed", (old_ss or 24) + 8)
+        end
+    end)
+    task.wait(6)
+    pcall(function()
+        for _, d in ipairs(Character:GetDescendants()) do
+            if d:IsA("BasePart") and d.Name ~= "HumanoidRootPart" then
+                d.LocalTransparencyModifier = 0
+            end
+        end
+        if Char then
+            Char:SetAttribute("WalkSpeed", old_ws)
+            Char:SetAttribute("SprintSpeed", old_ss)
+            Char:SetAttribute("Fatigue", true)
+        end
+    end)
+end
+FunGroup:AddButton({Text = "Add Stalk ability"; Func = function()
+    if not AbilityModule then return end
+    AbilityModule.CreateAbility({Name = "Stalk_NH",InputShown = "",Tip = "Turn invisible and gain speed for 6s. Long endlag.",Cooldown = 15, Icon = "rbxassetid://92577246919936", DisplayName = "Stalk"})
+    task.spawn(function()
+        repeat task.wait() until LocalPlayer:FindFirstChild("PlayerGui") and LocalPlayer.PlayerGui:FindFirstChild("MainGui") and LocalPlayer.PlayerGui.MainGui:FindFirstChild("Abilities") and LocalPlayer.PlayerGui.MainGui.Abilities:FindFirstChild("Folder") and LocalPlayer.PlayerGui.MainGui.Abilities.Folder:FindFirstChild("Stalk_NH")
+        LocalPlayer.PlayerGui.MainGui.Abilities.Folder:FindFirstChild("Stalk_NH").MouseButton1Down:Connect(function()
+            Fun_Stalk()
+            pcall(function() AbilityModule.PutOnCooldown("Stalk_NH",15) end)
+        end)
+    end)
+    Notify("Success!", "Stalk ability added.", 3, true)
+end; })
+
+-- Dash without cooldown ability
+local function Fun_Dash()
+    if not HumanoidRootPart then return end
+    local bv = Instance.new("BodyVelocity")
+    bv.MaxForce = Vector3.new(1e5,1e5,1e5)
+    bv.Velocity = HumanoidRootPart.CFrame.LookVector * 65
+    bv.Parent = HumanoidRootPart
+    game:GetService("Debris"):AddItem(bv, .25)
+end
+FunGroup:AddButton({Text = "Add Dash without cooldown"; Func = function()
+    if not AbilityModule then return end
+    AbilityModule.CreateAbility({Name = "Dash_NH",InputShown = "",Tip = "Dash forward with tiny cooldown.",Cooldown = .2, Icon = "rbxassetid://73777691791017",DisplayName = "Dash (No CD)"})
+    task.spawn(function()
+        repeat task.wait() until LocalPlayer:FindFirstChild("PlayerGui") and LocalPlayer.PlayerGui.MainGui and LocalPlayer.PlayerGui.MainGui.Abilities and LocalPlayer.PlayerGui.MainGui.Abilities:FindFirstChild("Folder") and LocalPlayer.PlayerGui.MainGui.Abilities.Folder:FindFirstChild("Dash_NH")
+        LocalPlayer.PlayerGui.MainGui.Abilities.Folder:FindFirstChild("Dash_NH").MouseButton1Down:Connect(function()
+            Fun_Dash()
+        end)
+    end)
+    Notify("Success!", "Dash (No CD) added.", 3, true)
+end; })
+
+-- Appearance Changer
+local AppGroup = Tab_8:AddRightGroupbox("Appearance")
+AppGroup:AddLabel("Morph into NPCs (Other)")
+local OtherModels = {}
+pcall(function()
+    for _, m in ipairs(game:GetService("ReplicatedStorage"):WaitForChild("Characters"):WaitForChild("Other"):GetChildren()) do
+        table.insert(OtherModels, m.Name)
+    end
+end)
+local SelectedMorph = OtherModels[1]
+AppGroup:AddDropdown("MorphChoice", {Text = "Choose Model"; Values = (#OtherModels>0 and OtherModels or {"Ghost"}); Default = (#OtherModels>0 and OtherModels[1] or "Ghost"); Multi = false; Callback = function(Value)
+    SelectedMorph = tostring(ConvertDropdownValue(Value))
+end; })
+AppGroup:AddButton({Text = "Morph"; Func = function()
+    pcall(function()
+        local src = game:GetService("ReplicatedStorage"):WaitForChild("Characters"):WaitForChild("Other"):FindFirstChild(SelectedMorph)
+        if not src then return end
+        local a = src:Clone()
+        a.Name = LocalPlayer.Name
+        a.Parent = workspace:WaitForChild("GameAssets"):WaitForChild("Teams"):WaitForChild("Ghost")
+        pcall(function()
+            a:WaitForChild("Humanoid").DisplayDistanceType = "None"
+        end)
+        if a:FindFirstChild("HumanoidRootPart") then
+            a.HumanoidRootPart.CFrame = (HumanoidRootPart and HumanoidRootPart.CFrame) or CFrame.new(0,5,0)
+        end
+        for _,v in pairs(a:GetDescendants()) do
+            if (v:IsA("BasePart") or v:IsA("Decal")) and (v.Name ~= "HumanoidRootPart" and (not v:FindFirstChild("Face") and v.Name ~= "Hurtbox")) then
+                v.Transparency = 0.3
+            end
+        end
+        LocalPlayer.Character = a
+        task.wait(.5)
+        LocalPlayer.CharacterAdded:Once(function()
+            a:Destroy()
+        end)
+    end)
+end; })
+
+-- Fake Spawners
+local SpawnGroup = Tab_8:AddLeftGroupbox("Fake Spawners")
+local function spawnBillboard(label, lifetime)
+    local p = Instance.new("Part")
+    p.Anchored = true
+    p.CanCollide = false
+    p.Size = Vector3.new(1,1,1)
+    p.Transparency = 1
+    p.CFrame = (HumanoidRootPart and (HumanoidRootPart.CFrame + Vector3.new(0,0,-6))) or CFrame.new(0,5,0)
+    p.Parent = workspace
+    local bb = Instance.new("BillboardGui", p)
+    bb.AlwaysOnTop = true
+    bb.Size = UDim2.new(0, 200, 0, 50)
+    local tl = Instance.new("TextLabel", bb)
+    tl.Size = UDim2.new(1,0,1,0)
+    tl.BackgroundTransparency = 1
+    tl.TextScaled = true
+    tl.TextColor3 = Color3.new(1,1,1)
+    tl.TextStrokeTransparency = 0
+    tl.Text = label
+    game:GetService("Debris"):AddItem(p, lifetime or 30)
+end
+
+local FakeKillerAppearance = "Devesto"
+SpawnGroup:AddInput("FakeKillerApp", {Text = "Fake Killer Appearance"; Placeholder = "Devesto"; Numeric = false; Finished = true; Callback = function(Value)
+    FakeKillerAppearance = ConvertDropdownValue(Value)
+end; })
+SpawnGroup:AddButton({Text = "Spawn Fake Killer"; Func = function()
+    spawnBillboard("Fake Killer ("..tostring(FakeKillerAppearance)..")", 60)
+end; })
+SpawnGroup:AddButton({Text = "Spawn Fake Survivor"; Func = function()
+    spawnBillboard("Fake Survivor", 45)
+end; })
+SpawnGroup:AddButton({Text = "Spawn Fake Timer"; Func = function()
+    spawnBillboard("Fake Timer: "..os.date("%M:%S"), 30)
+end; })
+SpawnGroup:AddButton({Text = "Spawn Fake Evil Scary"; Func = function()
+    pcall(function()
+        local cleanable = workspace:WaitForChild("GameAssets"):WaitForChild("Debris"):WaitForChild("Cleanable")
+        local part = Instance.new("Part")
+        part.Name = "EvilScary"
+        part.Size = Vector3.new(3,3,3)
+        part.Anchored = true
+        part.CanTouch = true
+        part.CanCollide = false
+        part.CFrame = (HumanoidRootPart and (HumanoidRootPart.CFrame + Vector3.new(0,0,-8))) or CFrame.new(0,5,0)
+        part.Parent = cleanable
+        game:GetService("Debris"):AddItem(part, 60)
+    end)
+end; })
+
+    -- Teleport Tab
+    local Tab_TP = Window:AddTab("Teleport", "map-pin")
+    local TPGroup = Tab_TP:AddLeftGroupbox("Teleport")
+
+    local function tpToModel(model)
+        if not model or not model:FindFirstChild("HumanoidRootPart") or not HumanoidRootPart then return end
+        HumanoidRootPart.CFrame = model.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+    end
+
+    TPGroup:AddButton({
+        Text = "Teleport to any Killer",
+        Func = function()
+            local killerFolder = workspace:FindFirstChild("GameAssets") and workspace.GameAssets:FindFirstChild("Teams") and workspace.GameAssets.Teams:FindFirstChild("Killer")
+            if killerFolder then
+                local target = killerFolder:FindFirstChildWhichIsA("Model")
+                tpToModel(target)
+            end
+        end,
+    })
+    TPGroup:AddButton({
+        Text = "Teleport to any Survivor",
+        Func = function()
+            local survFolder = workspace:FindFirstChild("GameAssets") and workspace.GameAssets:FindFirstChild("Teams") and workspace.GameAssets.Teams:FindFirstChild("Survivor")
+            if survFolder then
+                local target = survFolder:FindFirstChildWhichIsA("Model")
+                tpToModel(target)
+            end
+        end,
+    })
+    TPGroup:AddButton({
+        Text = "Teleport to any Ghost",
+        Func = function()
+            local ghostFolder = workspace:FindFirstChild("GameAssets") and workspace.GameAssets:FindFirstChild("Teams") and workspace.GameAssets.Teams:FindFirstChild("Ghost")
+            if ghostFolder then
+                local target = ghostFolder:FindFirstChildWhichIsA("Model")
+                tpToModel(target)
+            end
+        end,
+    })
+
+    local TPGroup2 = Tab_TP:AddRightGroupbox("Smart Teleports")
+    TPGroup2:AddButton({
+        Text = "Teleport to caretaker",
+        Func = function()
+            local survFolder = workspace:FindFirstChild("GameAssets") and workspace.GameAssets:FindFirstChild("Teams") and workspace.GameAssets.Teams:FindFirstChild("Survivor")
+            if not survFolder then return end
+            for _, m in ipairs(survFolder:GetChildren()) do
+                if m:IsA("Model") and m:FindFirstChild("Animations") and m.Animations:FindFirstChild("Abilities") then
+                    local abil = m.Animations.Abilities:FindFirstChild("Caretaker")
+                    if abil then tpToModel(m) break end
+                end
+            end
+        end,
+    })
+    TPGroup2:AddButton({
+        Text = "Teleport to injured survivor",
+        Func = function()
+            local survFolder = workspace:FindFirstChild("GameAssets") and workspace.GameAssets:FindFirstChild("Teams") and workspace.GameAssets.Teams:FindFirstChild("Survivor")
+            if not survFolder then return end
+            for _, m in ipairs(survFolder:GetChildren()) do
+                local hum = m:FindFirstChildOfClass("Humanoid")
+                if hum and hum.Health < hum.MaxHealth then tpToModel(m) break end
+            end
+        end,
+    })
+    TPGroup2:AddButton({
+        Text = "Teleport to bonuspad",
+        Func = function()
+            local found = nil
+            for _, d in ipairs(workspace:FindFirstChild("GameAssets") and workspace.GameAssets:GetDescendants() or {}) do
+                if d:IsA("BasePart") and d.Name:lower():find("bonus") then found = d break end
+            end
+            if found and HumanoidRootPart then HumanoidRootPart.CFrame = found.CFrame + Vector3.new(0, 3, 0) end
+        end,
+    })
+
+    -- HeadSit (sit on killer's head)
+    local HeadSitEnabled = false
+    local headSitConnection = nil
+
+    local function getAnyKillerModel()
+        local killerFolder = workspace:FindFirstChild("GameAssets")
+            and workspace.GameAssets:FindFirstChild("Teams")
+            and workspace.GameAssets.Teams:FindFirstChild("Killer")
+        if not killerFolder then return nil end
+        for _, m in ipairs(killerFolder:GetChildren()) do
+            if m:IsA("Model") and m:FindFirstChild("HumanoidRootPart") then
+                -- Prefer a killer that isn't the local player character
+                if m.Name ~= (LocalPlayer and LocalPlayer.Name or "") then
+                    return m
+                end
+            end
+        end
+        -- fallback to any model
+        return killerFolder:FindFirstChildWhichIsA("Model")
+    end
+
+    local function stopHeadSit()
+        HeadSitEnabled = false
+        if headSitConnection then
+            headSitConnection:Disconnect()
+            headSitConnection = nil
+        end
+        pcall(function()
+            if Humanoid then Humanoid.Sit = false end
+        end)
+        Notify("Info", "Stopped headsit.", 2, true)
+    end
+
+    local function startHeadSit()
+        if HeadSitEnabled then return end
+        HeadSitEnabled = true
+        pcall(function()
+            if Humanoid then Humanoid.Sit = true end
+        end)
+        if headSitConnection then
+            headSitConnection:Disconnect()
+            headSitConnection = nil
+        end
+        headSitConnection = game:GetService("RunService").Heartbeat:Connect(function()
+            if not HeadSitEnabled then return end
+            local killer = getAnyKillerModel()
+            if killer and killer:FindFirstChild("HumanoidRootPart") and Character and HumanoidRootPart and Humanoid and Humanoid.Sit == true then
+                local targetCF = killer.HumanoidRootPart.CFrame * CFrame.Angles(0, 0, 0) * CFrame.new(0, 1.6, 0.4)
+                HumanoidRootPart.CFrame = targetCF
+            else
+                -- If killer not available or prerequisites fail, stop gracefully
+                stopHeadSit()
+            end
+        end)
+        Notify("Success!", "Headsit enabled. Toggling again will stop.", 3, true)
+    end
+
+    TPGroup2:AddToggle("HeadSitToggle", {
+        Text = "Toggle HeadSit on Killer",
+        Default = false,
+    })
+    Toggles.HeadSitToggle:OnChanged(function()
+        local want = Toggles.HeadSitToggle.Value
+        if want then
+            startHeadSit()
+        else
+            stopHeadSit()
+        end
+    end)
+
+    -- Strengthen Dash (reduce fatigue and boost sprint briefly)
+    local StrengthenDash = false
+    FunGroup:AddToggle("StrengthenDash", {Text = "Strengthen Dash"; Default = false; Callback = function(Value)
+        StrengthenDash = Value
+        if StrengthenDash == true then
+            task.spawn(function()
+                while StrengthenDash do
+                    pcall(function()
+                        if Char then
+                            Char:SetAttribute("Fatigue", false)
+                            local current = Char:GetAttribute("SprintSpeed") or 24
+                            Char:SetAttribute("SprintSpeed", math.clamp(current + 4, 24, current + 4))
+                        end
+                    end)
+                    task.wait(1.5)
+                end
+            end)
+        end
+    end; })
     
     
     local Tab_9 = Window:AddTab("Music", "music")
@@ -2950,6 +3379,56 @@ function ConvertDropdownValue(tbl)
     MusicRightGroup:AddButton({Text = "Restore Original LMS Music"; Func = function()
         if restoreOriginalLMS() then
             Notify("Success!", "Original LMS music restored!", 4, true)
+        end
+    end; })
+
+    -- Global volume slider for custom music
+    local GlobalMusicVolume = 0.6
+    MusicRightGroup:AddSlider("GlobalMusicVolume", {
+        Text = "Music Volume",
+        Default = 60,
+        Min = 0,
+        Max = 100,
+        Rounding = 0,
+        Suffix = "%",
+        Callback = function(Value)
+            GlobalMusicVolume = tonumber(Value) / 100
+            pcall(function()
+                for _, s in ipairs(game:GetService("ReplicatedStorage"):WaitForChild("Sounds"):GetDescendants()) do
+                    if s:IsA("Sound") then s.Volume = GlobalMusicVolume end
+                end
+            end)
+        end,
+    })
+
+    -- Reload applied custom audios (re-apply active selected track)
+    MusicRightGroup:AddButton({Text = "Reload Custom Audio"; Func = function()
+        if SelectedAmbienceTrack and isfile(SelectedAmbienceTrack.Path) then
+            local ok, content = pcall(function() return readfile(SelectedAmbienceTrack.Path) end)
+            if not ok or not content or content == "" then
+                Notify("Error!", "Failed to reload selected track.", 4, false)
+                return
+            end
+            if not supportsCustomAssets() then
+                Notify("Error!", "Executor lacks custom asset support.", 4, false)
+                return
+            end
+            local tempSoundPath = MusicDownloadFolder.."/"..("TempReload_"..os.time()..".dat")
+            local ok2 = pcall(function() writefile(tempSoundPath, content) end)
+            if not ok2 then
+                Notify("Error!", "Failed to create temp file.", 4, false)
+                return
+            end
+            local assetFunc = getcustomasset or (syn and syn.getcustomasset) or get_custom_asset
+            local ok3, asset = pcall(function() return assetFunc(tempSoundPath) end)
+            if not ok3 or not asset then
+                Notify("Error!", "Failed to register asset.", 4, false)
+                return
+            end
+            replaceMapAmbienceWithSound(asset)
+            Notify("Success!", "Reloaded current ambience.", 4, true)
+        else
+            Notify("Info", "No selected ambience to reload.", 3, false)
         end
     end; })
     

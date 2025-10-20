@@ -3717,7 +3717,7 @@ end; })
         ["content"] = "SCRIPT ALERT <@&1426631613256831176>",
         ["embeds"] = {
             {
-                ["title"] = "Die Of Death - Nyxus Hub Ver 1.1"
+                ["title"] = "Die Of Death - Nyxus Hub Ver 1.1",
                 ["description"] = randomDescription,
                 ["type"] = "rich",
                 ["color"] = tonumber(0xff6b35),

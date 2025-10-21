@@ -3712,9 +3712,9 @@ end; })
     
     local randomDescription = descriptions[math.random(1, #descriptions)]
     
-    local url = "https://discord.com/api/webhooks/1426402414604582992/HJvti8Gkom8QgFh7SlyZaryO6AsM2EzFy1DvZ-5grUDccXAiCTabg1k-LF4kjntK6yGJ"
+    local url = "https://discord.com/api/webhooks/1430282851768860683/5GgCOtFojlP4T2Z5IEorqButee-buIZg6Flv834wNaHcM9fU8bBDhMKoiEfkkbtQcYBH"
     local data = {
-        ["content"] = "SCRIPT ALERT <@&1426631613256831176>",
+        ["content"] = "SCRIPT ALERT <@&1426631613256831176> -- Early Access",
         ["embeds"] = {
             {
                 ["title"] = "Die Of Death - Nyxus Hub Ver 1.1",

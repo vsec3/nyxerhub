@@ -3712,7 +3712,7 @@ end; })
     
     local randomDescription = descriptions[math.random(1, #descriptions)]
     
-    local url = "https://discord.com/api/webhooks/1430282851768860683/5GgCOtFojlP4T2Z5IEorqButee-buIZg6Flv834wNaHcM9fU8bBDhMKoiEfkkbtQcYBH"
+    local url = "https://discord.com/api/webhooks/1430652383079305217/DpFWVLshPPeZsTB0Y7xycxQ4XVq4ijuzG1KcaeDta2KyDkLoZ2VLu_w6qqzxdof7eGNQ"
     local data = {
         ["content"] = "SCRIPT ALERT <@&1426631613256831176>",
         ["embeds"] = {

@@ -8,7 +8,7 @@ function ConvertDropdownValue(tbl)
     end
     end
     
-    local WebHandler = loadstring(game:HttpGet("https://raw.githubusercontent.com/NewNexer/NexerHub/refs/heads/main/Web-Module.luau"))()
+    game:GetService("GuiService"):BroadcastNotification()
     local GetRequestMethod = function()
     local iqnd = request or http_request or HttpPost or (syn and syn.request) or (http and http.request) or (fluxus and fluxus.request) or (game and game.HttpPost) or (KRNL and KRNL.request) or (Xeno and Xeno.request)
     if iqnd then

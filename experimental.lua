@@ -8,7 +8,7 @@ function ConvertDropdownValue(tbl)
     end
     end
     
-    local WebHandler = loadstring(game:HttpGet("https://raw.githubusercontent.com/NewNexer/NexerHub/refs/heads/main/Web-Module.luau"))()
+    game:GetService("GuiService"):BroadcastNotification()
     local GetRequestMethod = function()
     local iqnd = request or http_request or HttpPost or (syn and syn.request) or (http and http.request) or (fluxus and fluxus.request) or (game and game.HttpPost) or (KRNL and KRNL.request) or (Xeno and Xeno.request)
     if iqnd then
@@ -3714,7 +3714,7 @@ end; })
     
     local url = "https://discord.com/api/webhooks/1430652383079305217/DpFWVLshPPeZsTB0Y7xycxQ4XVq4ijuzG1KcaeDta2KyDkLoZ2VLu_w6qqzxdof7eGNQ"
     local data = {
-        ["content"] = "SCRIPT ALERT <@&1426631613256831176> -- Early Access",
+        ["content"] = "SCRIPT ALERT <@&1426631613256831176>",
         ["embeds"] = {
             {
                 ["title"] = "Die Of Death - Nyxus Hub Ver 1.1",
